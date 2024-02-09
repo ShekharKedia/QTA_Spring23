@@ -42,10 +42,12 @@ source("code/pre_processing.R")
 prepped_toks <- prep_toks(corp) # basic token cleaning
 collocations <- get_coll(prepped_toks) # get collocations
 toks <- tokens_compound(prepped_toks, pattern = collocations[collocations$z > 10,]) # replace collocations
+super_stops <- c("said", # drop some additional common stopwords
+                 "say",
+                 "also")
+toks <- tokens_remove(toks, super_stops,
+                      valuetype = "glob")
 toks <- tokens_remove(tokens(toks), "") # let's also remove the whitespace placeholders
-
-toks <- tokens_remove(toks, c("said",
-                              "say"))
 
 toks <- tokens(toks, 
                remove_numbers = TRUE,
@@ -55,7 +57,7 @@ toks <- tokens(toks,
                remove_url = TRUE) # remove other uninformative text
 
 dfm <- dfm(toks)
-dfm <- dfm_trim(dfm, min_docfreq = 20)
+dfm <- dfm_trim(dfm, min_docfreq = 20) # this can be a *very* important step
 
 ## 2. Perform STM 
 # Convert dfm to stm
@@ -73,7 +75,7 @@ modelFit <- stm(documents = stmdfm$documents,
                 data = stmdfm$meta,
                 max.em.its = 500,
                 init.type = "Spectral",
-                seed = 2023,
+                seed = 2024,
                 verbose = TRUE)
 
 # Save your model!
@@ -108,8 +110,8 @@ cloud(modelFit,
 # Reading documents with high probability topics: the findThoughts() function
 findThoughts(modelFit,
              texts = dfm@docvars$standfirst, # If you include the original corpus text, we could refer to this here
-             topics = 1,
-             n = 10)
+             topics = NULL,
+             n = 3)
 
 ## 4. Topic validation: predictive validity using time series data
 #     a) Convert metadata to correct format
@@ -137,7 +139,7 @@ topic_correlations <- topicCorr(modelFit)
 plot.topicCorr(topic_correlations,
                vlabels = seq(1:ncol(modelFit$theta)), # we could change this to a vector of meaningful labels
                vertex.color = "white",
-               main = "Topic correlations")
+               main = "Topic correlations") # k = 8 topics are uncorrelated - we might need to include a higher k
 
 ## 6. Topic quality (semantic coherence and exclusivity)
 topicQuality(model = modelFit,
@@ -170,17 +172,17 @@ SemExPlot
 
 # Inspect outliers
 labelTopics(modelFit,
-            topics = c(6,3))
+            topics = c(7,3))
 
 ## 7. Extended visualisations
-#     a) Using LDAvis
+#     a) Using LDAvis - can you interpret the components?
 toLDAvis(mod = modelFit,
          docs = stmdfm$documents,
          open.browser = interactive(),
          reorder.topics = TRUE)
 
 #     b) Using stmBrowser
-#        Warning: this will (silently) change your working directory!
+#        Warning: this might (silently) change your working directory!
 stmBrowser(mod = modelFit,
            data = stmdfm$meta,
            covariates = c("section_name", "num_month"),

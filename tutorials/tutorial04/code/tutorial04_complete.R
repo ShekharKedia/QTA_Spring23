@@ -25,7 +25,7 @@ lapply(c("tidyverse",
 #gu_api_key() # run this interactive function
 #dat <- gu_content(query = "Ukraine", from_date = "2022-01-01", to_date = "2022-07-01")
 
-dat <- readRDS("data/df2023")
+dat <- readRDS("data/df2023") # try this with different data.frames
 dat <- dat[dat$section_name %in% c("World news", "Opinion") 
            & dat$type == "article",]
 dat <- dat %>%

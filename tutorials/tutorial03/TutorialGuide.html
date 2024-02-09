@@ -11,7 +11,7 @@
 
 <meta name="author" content="Martyn Egan" />
 
-<meta name="date" content="2023-02-10" />
+<meta name="date" content="2024-02-09" />
 
 <title>Tutorial Guide, QTA Wk 3</title>
 
@@ -352,7 +352,7 @@ display: none;
 
 <h1 class="title toc-ignore">Tutorial Guide, QTA Wk 3</h1>
 <h4 class="author">Martyn Egan</h4>
-<h4 class="date">2023-02-10</h4>
+<h4 class="date">2024-02-09</h4>
 
 </div>
 
@@ -376,18 +376,18 @@ keyness and sentiment.</li>
 time.</li>
 </ol>
 </div>
-<div id="case-study-ukraine-in-the-media-2022-and-2023" class="section level2">
-<h2>Case Study: Ukraine in the media, 2022 and 2023</h2>
+<div id="case-study-ukraine-in-the-media-2022-to-2024" class="section level2">
+<h2>Case Study: Ukraine in the media, 2022 to 2024</h2>
 <p>Last week we used the Guardian’s web API to acquire a corpus of
 articles from the first month of this year on Ukraine. We also have a
-similar corpus of articles from January 2022 with which to compare this
-corpus. We might be interested in learning how coverage of the conflict
-has changed over this period: we discovered last week, for instance,
-that the term “Nato” was prominent in 2022, but not in 2023 (or at
-least, not in relation to Ukraine), while the word “give” has become
-prominent in 2023 in a way that it wasn’t last year.</p>
+similar corpus of articles from January 2022 and January 2023 with which
+to compare this corpus. We might be interested in learning how coverage
+of the conflict has changed over this period: for instance, the term
+“Nato” was prominent in 2022, but not in 2023 (or at least, not in
+relation to Ukraine), while the word “give” became prominent in 2023 in
+a way that it wasn’t in 2022.</p>
 <p>Today we’re going to review the pre-processing steps we took last
-week to produce two comparable corpuses and dfms, and then perform some
+week to produce comparable corpuses and dfms, and then perform some
 textual analysis to see if we can identify any further findings from the
 data.</p>
 </div>
@@ -403,16 +403,16 @@ approach: we could use the <code>rbind()</code> function on the two
 Guardian API dataframes <strong>prior</strong> to creating the corpus,
 or we could use the <code>rbind()</code> function <strong>after</strong>
 we’ve created two separate dfms. We can do this because of
-oject-oriented programming: there is an <code>rbind()</code> <a href="https://quanteda.io/reference/cbind.dfm.html">S3 method</a> for
+object-oriented programming: there is an <code>rbind()</code> <a href="https://quanteda.io/reference/cbind.dfm.html">S3 method</a> for
 dfm objects.</p>
 </div>
 <div id="todays-class" class="section level2">
 <h2>Today’s class</h2>
 <p>As usual we’ll be working with an R script,
 <code>tutorial03.R</code>, which you’ll find in the <code>code</code>
-sub-repository on github. We’ll also use the data.frames we worked with
-last week, which you’ll find in this week’s <code>data</code>
-sub-repository.</p>
+sub-repository on github. We’ll also use the <code>data.frames</code> we
+worked with last week, which you’ll find in this week’s
+<code>data</code> sub-repository.</p>
 </div>
 
 
