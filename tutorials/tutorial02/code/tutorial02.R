@@ -2,7 +2,7 @@
 # Tutorial 2: APIs and pre-processing #
 #######################################
 
-## Load packages
+## Load packages    
 pkgTest <- function(pkg){
   new.pkg <- pkg[!(pkg %in% installed.packages()[,  "Package"])]
   if (length(new.pkg)) 
@@ -24,18 +24,20 @@ lapply(c("tidyverse",
 gu_api_key() # run this interactive function
 
 # We want to query the API on articles featuring Ukraine since Jan 1 2023
-dat <- gu_content(query = "", from_date = "") # making a tibble
+dat <- gu_content(query = "Ukraine", from_date = "2024-01-01") # making a tibble
 
 # We'll save this data
-saveRDS(dat, "data/df2023")
+setwd("D:/TCD- ASDS/QTA/GitHub/QTA_Spring23/tutorials/tutorial02")
+saveRDS(dat, "data/df2024")
 # And make a duplicate to work on
 df <- dat  
+
 
 # Take a look at the kind of object which gu_content creates. 
 # Try to find the column we need for our text analyses
 head(df) # checking our tibble
 
-df <- df[] # see if you can subset the object to focus on the articles we want
+df <- df[df$type == "article" & df$section_id == "world",] # see if you can subset the object to focus on the articles we want
 
 which(duplicated(df$web_title) == TRUE) # sometimes there are duplicates...
 df <- df[!duplicated(df$web_title),] # which we can remove
@@ -43,8 +45,8 @@ df <- df[!duplicated(df$web_title),] # which we can remove
 ### B. Making a corpus
 # We can use the corpus() function to convert our df to a quanteda corpus
 corpus_ukr <- corpus(df, 
-                     docid_field = "", 
-                     text_field = "") # select the correct column here
+                     docid_field = "web_title", 
+                     text_field = "body_text")
 
 # Checking our corpus
 summary(corpus_ukr, 5)
@@ -62,9 +64,10 @@ test <- as.character(corpus_ukr)[1] # make a test object
 
 stri_replace_first(test, 
                    replacement = "", # nothing here (i.e. we're removing)
-                   regex = "") #try to write the correct regex - this may help: https://www.rexegg.com/regex-quickstart.html
+                   regex = "^.+?\") # try to write the correct regex - this may help: https://www.rexegg.com/regex-quickstart.html
 
-# Sometimes there's also boilerplate at the end of an article after a big centre dot. 
+#Sometimes there's also boilerplate at the end of an article after a big centre dot."
+
 as.character(corpus_ukr)[which(grepl("\u2022.+$", corpus_ukr))[1]]
 
 # We could get rid of all that too with a different function
@@ -126,6 +129,7 @@ lemma_toks <- as.tokens(lemma_toks)
 
 # Compare article 10 in toks, stem_toks and lemma_toks: what do you notice?
 # Which is smallest?
+lemma_toks[10]
 
 ## 6. Detect collocations
 # Collocations are groups of words (grams) that are meaningful in combination. 
