@@ -5,6 +5,8 @@ corpSum24$fk <- textstat_readability(corp24, measure = "Flesch.Kincaid")
 grepl("Luke Harding|Jennifer Rankin|Julian Borger", 
       corpSum22$byline, ignore.case = TRUE)
 
+?grep
+
 corpSum22 %>%
   filter(grepl("Luke Harding|Jennifer Rankin|Julian Borger", 
         byline, ignore.case = TRUE)) %>%

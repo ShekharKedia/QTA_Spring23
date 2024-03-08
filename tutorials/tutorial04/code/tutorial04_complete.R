@@ -103,8 +103,8 @@ train_control <- trainControl(
 modelLookup(model = "naive_bayes")
 
 #             b) Create a matrix of combinations of parameters to supply to tuneGrid arg of train()
-tuneGrid <- expand.grid(laplace = c(0,0.5,1.0),
-                        usekernel = c(TRUE, FALSE),
+tuneGrid <- expand.grid(laplace = c(0,0.5,1.0),   #Adding 1 to avoid multiplication with 0
+                        usekernel = c(TRUE, FALSE), #To reorgnize the data in a high dimensional data (acts as a classifier)
                         adjust=c(0.75, 1, 1.25, 1.5))
 
 tuneGrid

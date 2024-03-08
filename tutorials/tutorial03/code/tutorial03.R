@@ -153,6 +153,8 @@ corpSum22$ttr <- corpSum22$Types / corpSum22$Tokens
 corpSum23$ttr <- corpSum23$Types / corpSum23$Tokens
 corpSum24$ttr <- corpSum24$Types / corpSum24$Tokens
 
+#The ratio shows the lexical diversity of the text
+
 # We can plot this over time as well:
 ggplot(data = NULL) +
   geom_point(aes(yday(corpSum22$date), corpSum22$ttr), col = "red") +
